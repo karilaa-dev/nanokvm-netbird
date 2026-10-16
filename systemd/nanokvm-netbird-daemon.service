@@ -1,0 +1,20 @@
+[Unit]
+Description=NetBird tunnel for NanoKVM
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/nanokvm-netbird/netbird service run --config /var/lib/nanokvm-netbird/netbird.json --daemon-addr unix:///run/nanokvm-netbird-daemon/netbird.sock --enable-json-socket --json-socket unix:///run/nanokvm-netbird-daemon/http.sock --log-file console --log-level warn --disable-profiles
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+UMask=0077
+StateDirectory=nanokvm-netbird
+StateDirectoryMode=0700
+RuntimeDirectory=nanokvm-netbird-daemon
+RuntimeDirectoryMode=0700
+Environment=GOMEMLIMIT=24MiB GOGC=50
+
+[Install]
+WantedBy=multi-user.target

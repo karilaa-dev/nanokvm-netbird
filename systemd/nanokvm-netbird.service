@@ -1,0 +1,22 @@
+[Unit]
+Description=NanoKVM NetBird provider and HTTPS gateway
+After=network.target nanokvm-go.service
+Wants=nanokvm-go.service
+
+[Service]
+Type=simple
+ExecStart=/opt/nanokvm-netbird/nanokvm-netbird
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=105
+UMask=0077
+StateDirectory=nanokvm-netbird
+StateDirectoryMode=0700
+RuntimeDirectory=nanokvm-netbird
+RuntimeDirectoryMode=0700
+Environment=GOMEMLIMIT=16MiB GOGC=50
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
